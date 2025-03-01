@@ -17,10 +17,12 @@ class UserRepository
     {
         return User::all();
     }
+
     public function getDoctor()
     {
         return User::where('role', 'doctor')->get();
     }
+
     public function getPatient()
     {
         return User::where('role', 'patient')->get();
@@ -40,6 +42,7 @@ class UserRepository
     {
         $user = User::findOrFail($id);
         $user->update($data);
+
         return $user;
     }
 

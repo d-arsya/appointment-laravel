@@ -19,10 +19,12 @@ class AppointmentRepository
     {
         return Appointment::with(['doctor', 'patient'])->orderBy('book')->get();
     }
+
     public function getDoctor()
     {
         return User::find(Auth::user()->id)->appointments()->with(['doctor', 'patient'])->get();
     }
+
     public function getPatient()
     {
         return User::find(Auth::user()->id)->books()->with(['doctor', 'patient'])->get();
@@ -42,6 +44,7 @@ class AppointmentRepository
     {
         $appointment = Appointment::findOrFail($id);
         $appointment->update($data);
+
         return $appointment;
     }
 

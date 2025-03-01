@@ -13,6 +13,7 @@ class AppointmentController extends Controller
      * Display a listing of the resource.
      */
     protected AppointmentService $appointmentService;
+
     protected UserService $userService;
 
     public function __construct(AppointmentService $appointmentService, UserService $userService)
@@ -20,9 +21,11 @@ class AppointmentController extends Controller
         $this->appointmentService = $appointmentService;
         $this->userService = $userService;
     }
+
     public function index()
     {
         $appointments = $this->appointmentService->getAllAppointments();
+
         // dd($appointments);
         return view('appointment.index', compact('appointments'));
     }
@@ -34,6 +37,7 @@ class AppointmentController extends Controller
     {
         $doctors = $this->userService->getDoctor();
         $patients = $this->userService->getPatient();
+
         return view('appointment.create', compact('doctors', 'patients'));
     }
 
@@ -43,7 +47,8 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $this->appointmentService->createAppointment($request);
-        return back();
+
+        return to_route('appointment.index');
     }
 
     /**
@@ -62,6 +67,7 @@ class AppointmentController extends Controller
         $appointment = $this->appointmentService->getAppointmentById($appointment);
         $doctors = $this->userService->getDoctor();
         $patients = $this->userService->getPatient();
+
         return view('appointment.edit', compact('appointment', 'doctors', 'patients'));
     }
 
@@ -71,6 +77,7 @@ class AppointmentController extends Controller
     public function update(Request $request, int $appointment)
     {
         $this->appointmentService->updateAppointment($request, $appointment);
+
         return to_route('appointment.index');
     }
 
@@ -80,6 +87,7 @@ class AppointmentController extends Controller
     public function destroy(int $appointment)
     {
         $this->appointmentService->deleteAppointment($appointment);
-        return back();
+
+        return to_route('appointment.index');
     }
 }

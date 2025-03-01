@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Date;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Appointment>
@@ -18,12 +17,13 @@ class AppointmentFactory extends Factory
      */
     public function definition(): array
     {
-        $date = fake()->dateTime(now()->addCenturyWithNoOverflow(), "Asia/Jakarta");
+        $date = fake()->dateTime(now()->addCenturyWithNoOverflow(), 'Asia/Jakarta');
+
         return [
-            "doctor_id" => fake()->numberBetween(1, 10),
-            "patient_id" => fake()->numberBetween(11, 20),
-            "book" => $date,
-            "deleted_at" => $date < now() ? Carbon::parse($date)->addMonths(3) : null
+            'doctor_id' => fake()->numberBetween(1, 10),
+            'patient_id' => fake()->numberBetween(11, 20),
+            'book' => $date,
+            'deleted_at' => $date < now() ? Carbon::parse($date)->addMonths(3) : null,
         ];
     }
 }

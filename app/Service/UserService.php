@@ -12,33 +12,38 @@ class UserService
     /**
      * Create a new class instance.
      */
-
     protected UserRepository $userRepository;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
+
     public function getDoctor()
     {
         $data = $this->userRepository->getDoctor();
+
         return $data;
     }
+
     public function getPatient()
     {
         $data = $this->userRepository->getPatient();
+
         return $data;
     }
+
     public function getAllUsers()
     {
         $data = $this->userRepository->getAll()->map(function ($User) {
             return [
-                "id" => $User->id,
-                "doctor" => $User->doctor->name,
-                "patient" => $User->patient->name,
-                "book" => Carbon::parse($User->book)->isoFormat('d M y h:m'),
+                'id' => $User->id,
+                'doctor' => $User->doctor->name,
+                'patient' => $User->patient->name,
+                'book' => Carbon::parse($User->book)->isoFormat('d M y h:m'),
             ];
         })->toArray();
+
         return $data;
     }
 
@@ -50,12 +55,13 @@ class UserService
     public function createUser(Request $data)
     {
         $form = $data->validate([
-            "doctor_id" => "required|number",
-            "patient_id" => "required|number",
-            "time" => "required|number",
-            "date" => "required|date"
+            'doctor_id' => 'required|number',
+            'patient_id' => 'required|number',
+            'time' => 'required|number',
+            'date' => 'required|date',
         ]);
         dd($form);
+
         return $this->userRepository->create($form);
     }
 
@@ -64,6 +70,7 @@ class UserService
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
+
         return $this->userRepository->update($id, $data);
     }
 
